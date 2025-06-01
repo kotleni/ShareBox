@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ThemeProvider } from "@/app/components/ThemeProvider"
 import LogoIcon from "@/app/icons/LogoIcon"
-import {Avatar, AvatarFallback, AvatarImage} from "./components/Avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "./components/Avatar"
 
 export const metadata: Metadata = {
   title: "ShareBox",
@@ -32,7 +32,10 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
               <Link href="/auth" className="hover:underline">
                 <span hidden={false}>Login</span>
                 <Avatar hidden={true}>
-                  <AvatarImage src="https://github.com/kotleni.png" alt="@kotleni" />
+                  <AvatarImage
+                    src="https://github.com/kotleni.png"
+                    alt="@kotleni"
+                  />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </Link>
