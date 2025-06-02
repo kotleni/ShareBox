@@ -4,8 +4,15 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/app/components/Tooltip"
+import Link from "next/link"
 
-const DownloadPage = () => {
+const DownloadPage = async ({
+    params,
+}: {
+    params: Promise<{ fileId: string }>
+}) => {
+    const { fileId } = await params
+
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">
             <div className="w-100 flex gap-2 flex-col bg-card border-2 border rounded-lg p-6 shadow-sm">
@@ -27,8 +34,8 @@ const DownloadPage = () => {
                         </TooltipContent>
                     </Tooltip>
                 </div>
-                <Button className="mt-1" variant="outline" size="lg">
-                    Download
+                <Button className="mt-1" variant="outline" size="lg" asChild>
+                    <Link href={"/files/" + fileId}>Download</Link>
                 </Button>
             </div>
         </main>
