@@ -16,8 +16,13 @@ export default function Home() {
                 <Button variant="default" size="lg" asChild>
                     <Link href="/auth">Create account</Link>
                 </Button>
-                <Button variant="outline" size="lg">
-                    Read more
+                <Button variant="outline" size="lg" asChild>
+                    <Link
+                        href="https://github.com/kotleni/ShareBox"
+                        target="_blank"
+                    >
+                        Open GitHub
+                    </Link>
                 </Button>
             </div>
         </main>
