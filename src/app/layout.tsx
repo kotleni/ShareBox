@@ -21,7 +21,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                     content="width=device-width, initial-scale=1.0"
                 />
             </head>
-            <body className="min-h-screen flex flex-col bg-slate-900">
+            <body className="w-screen min-h-screen flex flex-col bg-slate-900">
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
