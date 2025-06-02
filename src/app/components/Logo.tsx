@@ -6,11 +6,11 @@ import LogoDark from "@/app/images/logo-dark.svg"
 import { useTheme } from "next-themes"
 
 export default function Logo() {
-  const theme = useTheme()
-  return (
-    <Image
-      src={theme.resolvedTheme != "dark" ? LogoLight : LogoDark}
-      alt="ShareBox logo"
-    />
-  )
+    const theme = useTheme()
+    return (
+        <Image
+            src={theme.resolvedTheme != "dark" ? LogoLight : LogoDark}
+            alt="ShareBox logo"
+        />
+    )
 }
