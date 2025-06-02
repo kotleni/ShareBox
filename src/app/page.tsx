@@ -1,11 +1,11 @@
 import { Button } from "@/app/components/Button"
-import BigLogo from "@/app/components/BigLogo"
 import Link from "next/link"
+import { CloudUpload } from "lucide-react"
 
 export default function Home() {
     return (
         <main className="w-full h-full flex flex-col flex-wrap grow-1 justify-center items-center">
-            <BigLogo />
+            <CloudUpload width={64} height={64} className="mb-8" />
             <p className="text-xl text-center mb-8 mt-1 px-8 md:px-42 lg:px-64 xl:px-128">
                 ShareBox is a file sharing platform that allows you to share
                 files anyone using generated links. Fully open-source,
