@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ThemeProvider } from "@/app/components/ThemeProvider"
 import LogoIcon from "@/app/icons/LogoIcon"
 import { Avatar, AvatarFallback, AvatarImage } from "./components/Avatar"
+import { Toaster } from "@/app/components/Sonner"
 
 export const metadata: Metadata = {
   title: "ShareBox",
@@ -42,6 +43,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             </div>
           </div>
           {children}
+          <Toaster position="top-center" />
           <footer className="text-center mt-auto py-4">
             Open source ShareBox platform.
             <Link

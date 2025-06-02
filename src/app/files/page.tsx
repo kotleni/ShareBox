@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/app/components/Button"
 import { CloudUpload, File } from "lucide-react"
 import {
@@ -9,8 +11,17 @@ import {
 } from "../components/DropdownMenu"
 import { DropdownMenuTrigger } from "@/app/components/DropdownMenu"
 import { Progress } from "@/app/components/Progress"
+import Link from "next/link"
+import { useState } from "react"
+import { toast } from "sonner"
 
-const FileItem = () => {
+interface FileItemProps {
+  downloadUrl: string
+  onShareClick: () => void
+  onRemoveClick: () => void
+}
+
+const FileItem = (props: FileItemProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,9 +34,15 @@ const FileItem = () => {
       <DropdownMenuContent align="start">
         <DropdownMenuLabel>File</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Download</DropdownMenuItem>
-          <DropdownMenuItem>Share</DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">Remove</DropdownMenuItem>
+          <Link href={props.downloadUrl} target="_blank">
+            <DropdownMenuItem>Download</DropdownMenuItem>
+          </Link>
+          <DropdownMenuItem onClick={props.onShareClick}>
+            Share
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={props.onRemoveClick} variant="destructive">
+            Remove
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -49,7 +66,14 @@ const FilesPage = () => {
 
       <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {Array.from({ length: 12 }).map((_, i) => (
-          <FileItem key={i} />
+          <FileItem
+            key={i}
+            downloadUrl="/file.zip"
+            onShareClick={() => {
+              toast("Sharing url copied")
+            }}
+            onRemoveClick={() => {}}
+          />
         ))}
       </div>
     </div>
