@@ -25,7 +25,7 @@ const FileItem = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem>Download</DropdownMenuItem>
           <DropdownMenuItem>Share</DropdownMenuItem>
-          <DropdownMenuItem>Remove</DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">Remove</DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
