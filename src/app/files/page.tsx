@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/app/components/Button"
-import { CloudUpload, File } from "lucide-react"
+import { CloudUpload, File, Upload } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,11 +12,11 @@ import {
 import { DropdownMenuTrigger } from "@/app/components/DropdownMenu"
 import { Progress } from "@/app/components/Progress"
 import Link from "next/link"
-import { useState } from "react"
 import { toast } from "sonner"
 
 interface FileItemProps {
     downloadUrl: string
+    isUploading: boolean
     onShareClick: () => void
     onRemoveClick: () => void
 }
@@ -26,18 +26,41 @@ const FileItem = (props: FileItemProps) => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className="w-full h-full min-h-[40px] hover:bg-muted cursor-pointer flex flex-col items-center justify-center gap-1 border rounded-lg p-4">
-                    <File />
+                    <div hidden={props.isUploading}>
+                        <File />
+                    </div>
+                    <div hidden={!props.isUploading}>
+                        <Upload className="animate-wiggle" />
+                    </div>
                     henta.zip
-                    <div className="text-muted-foreground">12 Mb</div>
+                    <div
+                        className="text-muted-foreground"
+                        hidden={props.isUploading}
+                    >
+                        12 Mb
+                    </div>
+                    <div
+                        className="text-muted-foreground"
+                        hidden={!props.isUploading}
+                    >
+                        Uploading
+                    </div>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
                 <DropdownMenuLabel>File</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                    <Link href={props.downloadUrl} target="_blank">
+                    <Link
+                        href={props.downloadUrl}
+                        target="_blank"
+                        hidden={props.isUploading}
+                    >
                         <DropdownMenuItem>Download</DropdownMenuItem>
                     </Link>
-                    <DropdownMenuItem onClick={props.onShareClick}>
+                    <DropdownMenuItem
+                        onClick={props.onShareClick}
+                        hidden={props.isUploading}
+                    >
                         Share
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -74,12 +97,21 @@ const FilesPage = () => {
                     <FileItem
                         key={i}
                         downloadUrl="/file.zip"
+                        isUploading={false}
                         onShareClick={() => {
                             toast("Sharing url copied")
                         }}
                         onRemoveClick={() => {}}
                     />
                 ))}
+                <FileItem
+                    downloadUrl="/hentai.zip"
+                    isUploading={true}
+                    onShareClick={() => {
+                        toast("Sharing url copied")
+                    }}
+                    onRemoveClick={() => {}}
+                />
             </div>
         </div>
     )
