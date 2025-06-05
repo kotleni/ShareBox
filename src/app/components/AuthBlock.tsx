@@ -1,7 +1,7 @@
 import { TabsContent } from "@/app/components/Tabs"
 import TextField from "@/app/components/TextField"
 import { Button } from "@/app/components/Button"
-import getTranslations from "@/i18n/getTranslations"
+import { getTranslations } from "@/i18n/resolver"
 
 interface AuthBlockProps {
     type: "login" | "register"

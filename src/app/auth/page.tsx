@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/app/components/Tabs"
 import AuthBlock from "@/app/components/AuthBlock"
 import { Alert, AlertDescription, AlertTitle } from "@/app/components/Alert"
 import { AlertCircleIcon } from "lucide-react"
-import getTranslations from "@/i18n/getTranslations"
+import { getTranslations } from "@/i18n/resolver"
 
 export default async function AuthPage() {
     const { t } = await getTranslations()
