@@ -9,7 +9,7 @@ export default async function AuthPage() {
 
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">
-            <div className="m-4 sm:m-2">
+            <div className="m-4 sm:m-2 w-140 sm:w-fit md:w-100 lg:w-140 xl:w-140">
                 <Alert className="w-full mb-4" variant="default">
                     <AlertCircleIcon />
                     <AlertTitle>{t("alert_title")}</AlertTitle>
