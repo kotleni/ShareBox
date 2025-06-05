@@ -1,0 +1,15 @@
+{
+  "login": "Увійти",
+  "register": "Щареєструватись",
+  "login_title": "Увійти",
+  "register_title": "Реєстрація",
+  "login_subtitle": "Введіть свою електронну пошту та пароль, щоб увійти в обліковий запис",
+  "register_subtitle": "Введіть свою електронну пошту та пароль два рази нижче, щоб створити обліковий запис",
+  "login_button": "Увійти",
+  "register_button": "Зареєструватися",
+  "login_placeholder": "Логін",
+  "password_placeholder": "Пароль",
+  "password_verification_placeholder": "Підтвердження пароля",
+  "alert_title": "Неможливо виконати",
+  "alert_description": "Будь ласка, перевірте інформацію про свій обліковий запис і спробуйте ще раз."
+}

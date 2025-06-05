@@ -2,7 +2,7 @@ import { Button } from "@/app/components/Button"
 import Link from "next/link"
 import { CloudUpload } from "lucide-react"
 
-export default function Home() {
+export default async function Home() {
     return (
         <main className="w-full h-full flex flex-col flex-wrap grow-1 justify-center items-center">
             <CloudUpload width={64} height={64} className="mb-8" />
@@ -14,7 +14,7 @@ export default function Home() {
 
             <div className="flex gap-3 justify-center">
                 <Button variant="default" size="lg" asChild>
-                    <Link href="/auth">Create account</Link>
+                    <Link href={`/auth`}>Create account</Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                     <Link

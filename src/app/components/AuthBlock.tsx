@@ -1,57 +1,50 @@
 import { TabsContent } from "@/app/components/Tabs"
 import TextField from "@/app/components/TextField"
 import { Button } from "@/app/components/Button"
-
-const titleTranslations = {
-    login: "Login",
-    register: "Register",
-}
-
-const subTitleTranslations = {
-    login: "Enter your email and password below to login to your account",
-    register:
-        "Enter your email and password 2 times below to create an account",
-}
-
-const submitButtonTranslations = {
-    login: "Login",
-    register: "Register",
-}
+import getTranslations from "@/i18n/getTranslations"
 
 interface AuthBlockProps {
     type: "login" | "register"
 }
 
-const AuthBlock = (props: AuthBlockProps) => {
+const AuthBlock = async (props: AuthBlockProps) => {
+    const { t } = await getTranslations()
+
     return (
         <div>
             <TabsContent value={props.type}>
                 <div className="w-full flex gap-2 flex-col bg-card border-2 border rounded-lg p-6 shadow-sm">
                     <span className="text-1xl font-bold">
-                        {titleTranslations[props.type]}
+                        {props.type === "login"
+                            ? t("login_title")
+                            : t("register_title")}
                     </span>
                     <span className="text-1xl pb-3">
-                        {subTitleTranslations[props.type]}
+                        {props.type === "login"
+                            ? t("login_subtitle")
+                            : t("register_subtitle")}
                     </span>
                     <TextField
                         className="w-full"
                         type="text"
-                        placeholder="Login"
+                        placeholder={t("login_placeholder")}
                     />
                     <TextField
                         className="w-full"
                         type="password"
-                        placeholder="Password"
+                        placeholder={t("password_placeholder")}
                     />
                     <TextField
                         className="w-full"
                         type="password"
-                        placeholder="Password verification"
-                        hidden={props.type == "login"}
+                        placeholder={t("password_verification_placeholder")}
+                        hidden={props.type === "login"}
                     />
                     <div className="flex flex-col gap-2 grow-1 pt-3">
                         <Button variant="default">
-                            {submitButtonTranslations[props.type]}
+                            {props.type === "login"
+                                ? t("login_button")
+                                : t("register_button")}
                         </Button>
                     </div>
                 </div>

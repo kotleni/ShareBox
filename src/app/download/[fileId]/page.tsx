@@ -35,7 +35,7 @@ const DownloadPage = async ({
                     </Tooltip>
                 </div>
                 <Button className="mt-1" variant="outline" size="lg" asChild>
-                    <Link href={"/files/" + fileId}>Download</Link>
+                    <Link href={"/src/app/files" + fileId}>Download</Link>
                 </Button>
             </div>
         </main>
