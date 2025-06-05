@@ -1,14 +1,14 @@
-import { TabsContent } from "@/app/components/Tabs"
-import TextField from "@/app/components/TextField"
-import { Button } from "@/app/components/Button"
-import { getTranslations } from "@/i18n/resolver"
+import { TabsContent } from "@/app/components/Tabs";
+import TextField from "@/app/components/TextField";
+import { Button } from "@/app/components/Button";
+import { getTranslations } from "@/i18n/resolver";
 
 interface AuthBlockProps {
-    type: "login" | "register"
+    type: "login" | "register";
 }
 
 const AuthBlock = async (props: AuthBlockProps) => {
-    const { t } = await getTranslations()
+    const { t } = await getTranslations();
 
     return (
         <div>
@@ -50,7 +50,7 @@ const AuthBlock = async (props: AuthBlockProps) => {
                 </div>
             </TabsContent>
         </div>
-    )
-}
+    );
+};
 
-export default AuthBlock
+export default AuthBlock;

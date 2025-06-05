@@ -1,5 +1,5 @@
-import * as React from "react"
-import { SVGProps } from "react"
+import * as React from "react";
+import { SVGProps } from "react";
 
 const LogoIcon = (props: SVGProps<SVGSVGElement>) => (
     <svg
@@ -30,5 +30,5 @@ const LogoIcon = (props: SVGProps<SVGSVGElement>) => (
             rx={0.9}
         />
     </svg>
-)
-export default LogoIcon
+);
+export default LogoIcon;

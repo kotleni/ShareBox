@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { Button } from "@/app/components/Button"
-import { CloudUpload, File, Upload } from "lucide-react"
+import { Button } from "@/app/components/Button";
+import { CloudUpload, File, Upload } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-} from "../components/DropdownMenu"
-import { DropdownMenuTrigger } from "@/app/components/DropdownMenu"
-import { Progress } from "@/app/components/Progress"
-import Link from "next/link"
-import { toast } from "sonner"
+} from "../components/DropdownMenu";
+import { DropdownMenuTrigger } from "@/app/components/DropdownMenu";
+import { Progress } from "@/app/components/Progress";
+import Link from "next/link";
+import { toast } from "sonner";
 
 interface FileItemProps {
-    downloadUrl: string
-    isUploading: boolean
-    onShareClick: () => void
-    onRemoveClick: () => void
+    downloadUrl: string;
+    isUploading: boolean;
+    onShareClick: () => void;
+    onRemoveClick: () => void;
 }
 
 const FileItem = (props: FileItemProps) => {
@@ -72,8 +72,8 @@ const FileItem = (props: FileItemProps) => {
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
-}
+    );
+};
 
 const FilesPage = () => {
     return (
@@ -99,7 +99,7 @@ const FilesPage = () => {
                         downloadUrl="/file.zip"
                         isUploading={false}
                         onShareClick={() => {
-                            toast("Sharing url copied")
+                            toast("Sharing url copied");
                         }}
                         onRemoveClick={() => {}}
                     />
@@ -108,13 +108,13 @@ const FilesPage = () => {
                     downloadUrl="/hentai.zip"
                     isUploading={true}
                     onShareClick={() => {
-                        toast("Sharing url copied")
+                        toast("Sharing url copied");
                     }}
                     onRemoveClick={() => {}}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default FilesPage
+export default FilesPage;

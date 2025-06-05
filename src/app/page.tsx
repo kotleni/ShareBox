@@ -1,6 +1,6 @@
-import { Button } from "@/app/components/Button"
-import Link from "next/link"
-import { CloudUpload } from "lucide-react"
+import { Button } from "@/app/components/Button";
+import Link from "next/link";
+import { CloudUpload } from "lucide-react";
 
 export default async function Home() {
     return (
@@ -26,5 +26,5 @@ export default async function Home() {
                 </Button>
             </div>
         </main>
-    )
+    );
 }

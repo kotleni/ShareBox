@@ -1,5 +1,5 @@
-import * as React from "react"
-import cn from "classnames"
+import * as React from "react";
+import cn from "classnames";
 
 const TextField = ({
     className,
@@ -18,7 +18,7 @@ const TextField = ({
             )}
             {...props}
         />
-    )
-}
+    );
+};
 
-export default TextField
+export default TextField;

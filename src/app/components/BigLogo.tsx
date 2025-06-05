@@ -1,5 +1,5 @@
-import Image from "next/image"
-import LogoImage from "@/app/images/logo-dark.svg"
+import Image from "next/image";
+import LogoImage from "@/app/images/logo-dark.svg";
 
 export default function BigLogo() {
     return (
@@ -8,5 +8,5 @@ export default function BigLogo() {
             src={LogoImage}
             alt="logo"
         />
-    )
+    );
 }

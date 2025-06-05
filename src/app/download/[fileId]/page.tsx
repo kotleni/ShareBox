@@ -1,17 +1,17 @@
-import { Button } from "@/app/components/Button"
+import { Button } from "@/app/components/Button";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from "@/app/components/Tooltip"
-import Link from "next/link"
+} from "@/app/components/Tooltip";
+import Link from "next/link";
 
 const DownloadPage = async ({
     params,
 }: {
-    params: Promise<{ fileId: string }>
+    params: Promise<{ fileId: string }>;
 }) => {
-    const { fileId } = await params
+    const { fileId } = await params;
 
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">
@@ -39,7 +39,7 @@ const DownloadPage = async ({
                 </Button>
             </div>
         </main>
-    )
-}
+    );
+};
 
-export default DownloadPage
+export default DownloadPage;

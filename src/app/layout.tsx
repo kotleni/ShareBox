@@ -1,16 +1,16 @@
-import "./globals.scss"
-import type { Metadata } from "next"
-import Link from "next/link"
-import { ThemeProvider } from "@/app/components/ThemeProvider"
-import LogoIcon from "@/app/icons/LogoIcon"
-import { Avatar, AvatarFallback, AvatarImage } from "./components/Avatar"
-import { Toaster } from "@/app/components/Sonner"
-import { getLocaleName } from "@/i18n/resolver"
+import "./globals.scss";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ThemeProvider } from "@/app/components/ThemeProvider";
+import LogoIcon from "@/app/icons/LogoIcon";
+import { Avatar, AvatarFallback, AvatarImage } from "./components/Avatar";
+import { Toaster } from "@/app/components/Sonner";
+import { getLocaleName } from "@/i18n/resolver";
 
 export const metadata: Metadata = {
     title: "ShareBox",
     description: "Open-source file sharing platform",
-}
+};
 
 const RootLayout = async ({
     children,
@@ -62,7 +62,7 @@ const RootLayout = async ({
                 </ThemeProvider>
             </body>
         </html>
-    )
-}
+    );
+};
 
-export default RootLayout
+export default RootLayout;
