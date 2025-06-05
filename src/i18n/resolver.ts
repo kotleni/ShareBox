@@ -11,8 +11,16 @@ const DEFAULT_LOCALE = "en-US"
 export async function getLocaleName() {
     const reqHeaders = await headers()
     const localeLine = reqHeaders.get(HEADER_KEY)
-    const locale = localeLine?.split(",")[0] || DEFAULT_LOCALE
-    return SUPPORTED_LOCALES.includes(locale) ? locale : DEFAULT_LOCALE
+    const locale = localeLine?.split(",")[0] || getDefaultLocale()
+    return getSupportedLocales().includes(locale) ? locale : getDefaultLocale()
+}
+
+export function getSupportedLocales() {
+    return SUPPORTED_LOCALES
+}
+
+export function getDefaultLocale() {
+    return DEFAULT_LOCALE
 }
 
 export async function getTranslations(namespaces: string[] = ["common"]) {
@@ -29,8 +37,8 @@ export async function getTranslations(namespaces: string[] = ["common"]) {
         )
         .init({
             lng: locale,
-            fallbackLng: DEFAULT_LOCALE,
-            supportedLngs: SUPPORTED_LOCALES,
+            fallbackLng: getDefaultLocale,
+            supportedLngs: getSupportedLocales(),
             defaultNS: namespaces[0] || "common",
             fallbackNS: "common",
             ns: namespaces,
