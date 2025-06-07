@@ -3,10 +3,9 @@ import { headers } from "next/headers";
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next/initReactI18next";
 import resourcesToBackend from "i18next-resources-to-backend";
+import nextConfig from "@/../next.config";
 
 const HEADER_KEY = "Accept-Language";
-const SUPPORTED_LOCALES = ["en-US", "uk-UA"];
-const DEFAULT_LOCALE = "en-US";
 
 export async function getLocaleName() {
     const reqHeaders = await headers();
@@ -16,11 +15,11 @@ export async function getLocaleName() {
 }
 
 export function getSupportedLocales() {
-    return SUPPORTED_LOCALES;
+    return nextConfig.i18n!.locales;
 }
 
 export function getDefaultLocale() {
-    return DEFAULT_LOCALE;
+    return nextConfig.i18n!.defaultLocale;
 }
 
 export async function getTranslations(namespaces: string[] = ["common"]) {
@@ -42,7 +41,7 @@ export async function getTranslations(namespaces: string[] = ["common"]) {
             defaultNS: namespaces[0] || "common",
             fallbackNS: "common",
             ns: namespaces,
-            preload: typeof window === "undefined" ? SUPPORTED_LOCALES : [],
+            preload: typeof window === "undefined" ? getSupportedLocales() : [],
         });
 
     return {
