@@ -6,23 +6,27 @@ export function middleware(req: NextRequest) {
     const { nextUrl } = req;
     const newUrl = nextUrl.clone();
     const pathname = newUrl.pathname;
+    const res = NextResponse.rewrite(newUrl);
 
     const localeInPath = languages.find(
         (locale) =>
             pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
     );
 
-    if (localeInPath) {
-        return NextResponse.next();
-    }
-
     const locale = getPreferredLocale({
-        userLocale: undefined,
+        userLocale: localeInPath,
         acceptLanguageHeader: req.headers.get("accept-language") ?? undefined,
     });
 
-    newUrl.pathname = `/${locale}${pathname}`;
+    if (localeInPath) {
+        res.headers.set("x-locale", locale);
+        res.headers.set("x-pathname", pathname);
+        console.log(locale);
+        return NextResponse.next(res);
+    }
 
+    // If url has no locale, redirect to locale
+    newUrl.pathname = `/${locale}${pathname}`;
     return NextResponse.redirect(newUrl);
 }
 

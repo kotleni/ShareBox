@@ -19,7 +19,7 @@ export async function getTranslation(localeOverride?: string) {
                 resourcesToBackend(
                     (language: string, namespace: string) =>
                         import(
-                            `../../public/locales/${language}/${namespace}.json`
+                            `@/../public/locales/${language}/${namespace}.json`
                         ),
                 ),
             );
