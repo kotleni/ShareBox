@@ -8,7 +8,7 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-} from "../components/DropdownMenu";
+} from "../../components/DropdownMenu";
 import { DropdownMenuTrigger } from "@/app/components/DropdownMenu";
 import { Progress } from "@/app/components/Progress";
 import Link from "next/link";

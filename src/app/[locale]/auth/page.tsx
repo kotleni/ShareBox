@@ -2,10 +2,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/app/components/Tabs";
 import AuthBlock from "@/app/components/AuthBlock";
 import { Alert, AlertDescription, AlertTitle } from "@/app/components/Alert";
 import { AlertCircleIcon } from "lucide-react";
-import { getT } from "@/i18n";
+import { getTranslation } from "@/i18n/server";
 
 export default async function AuthPage() {
-    const { t } = await getT();
+    const { t } = await getTranslation();
 
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">

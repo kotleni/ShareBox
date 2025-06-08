@@ -1,22 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import acceptLanguage from "accept-language";
-import { fallbackLng, cookieName, headerName } from "@/i18n/settings";
+import { getPreferredLocale } from "./i18n/getPreferredLocale";
+import { languages } from "@/i18n/settings";
 
 export function middleware(req: NextRequest) {
-    let lang: string | undefined | null;
-    if (req.cookies.has(cookieName))
-        lang = acceptLanguage.get(req.cookies.get(cookieName)?.value);
-    if (!lang) lang = acceptLanguage.get(req.headers.get("Accept-Language"));
-    if (!lang) lang = fallbackLng;
+    const { nextUrl } = req;
+    const newUrl = nextUrl.clone();
+    const pathname = newUrl.pathname;
 
-    const headers = new Headers(req.headers);
-    headers.set(headerName, lang);
+    const localeInPath = languages.find(
+        (locale) =>
+            pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+    );
 
-    return NextResponse.next({ headers });
+    if (localeInPath) {
+        return NextResponse.next();
+    }
+
+    const locale = getPreferredLocale({
+        userLocale: undefined,
+        acceptLanguageHeader: req.headers.get("accept-language") ?? undefined,
+    });
+
+    newUrl.pathname = `/${locale}${pathname}`;
+
+    return NextResponse.redirect(newUrl);
 }
 
 export const config = {
-    matcher: [
-        "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-    ],
+    matcher: ["/((?!api|_next/static|_next/image|static|.*\\.).*)"],
 };
