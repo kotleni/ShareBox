@@ -6,14 +6,14 @@ import { Button } from "@/app/components/Button";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useTranslation } from "next-i18next";
+import { useT } from "@/i18n/client";
 
 interface AuthBlockProps {
     type: "login" | "register";
 }
 
 const AuthBlock = (props: AuthBlockProps) => {
-    const { t } = useTranslation();
+    const { t } = useT();
 
     const {
         register,

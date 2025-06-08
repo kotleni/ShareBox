@@ -1,46 +1,22 @@
-// const locales = ["en-US", "uk-UA"]
-// const defaultLocale = "en-US"
-//
-// // Get the preferred locale from the request
-// function getLocale(request: NextRequest) {
-//     // Check if the URL has a [lang] parameter
-//     const pathname = request.nextUrl.pathname
-//     const langMatch = pathname.match(/^\/([^\/]+)/)
-//
-//     if (langMatch && locales.includes(langMatch[1])) {
-//         return langMatch[1]
-//     }
-//
-//     // If no valid lang parameter, use accept-language header
-//     const acceptLanguage =
-//         request.headers.get("accept-language") || "en-US,en;q=0.5"
-//     const headers = { "accept-language": acceptLanguage }
-//     const languages = new Negotiator({ headers }).languages()
-//
-//     return match(languages, locales, defaultLocale)
-// }
-//
-// export function middleware(request: NextRequest) {
-//     // Check if the URL already has a valid locale
-//     const { pathname } = request.nextUrl
-//
-//     // Check if the URL starts with a valid locale
-//     const pathnameHasLocale = locales.some(
-//         (locale) =>
-//             pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
-//     )
-//
-//     // If the URL already has a valid locale, no need to redirect
-//     if (pathnameHasLocale) return
-//
-//     // Get the preferred locale
-//     const locale = getLocale(request)
-//
-//     // Redirect to the URL with the locale
-//     request.nextUrl.pathname = `/${locale}${pathname}`
-//     return NextResponse.redirect(request.nextUrl)
-// }
+import { NextRequest, NextResponse } from "next/server";
+import acceptLanguage from "accept-language";
+import { fallbackLng, cookieName, headerName } from "@/i18n/settings";
+
+export function middleware(req: NextRequest) {
+    let lang: string | undefined | null;
+    if (req.cookies.has(cookieName))
+        lang = acceptLanguage.get(req.cookies.get(cookieName)?.value);
+    if (!lang) lang = acceptLanguage.get(req.headers.get("Accept-Language"));
+    if (!lang) lang = fallbackLng;
+
+    const headers = new Headers(req.headers);
+    headers.set(headerName, lang);
+
+    return NextResponse.next({ headers });
+}
 
 export const config = {
-    matcher: [],
+    matcher: [
+        "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    ],
 };

@@ -1,22 +1,32 @@
 import "./globals.scss";
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
 import LogoIcon from "@/app/icons/LogoIcon";
 import { Avatar, AvatarFallback, AvatarImage } from "./components/Avatar";
 import { Toaster } from "@/app/components/Sonner";
-import { getLocaleName } from "@/i18n/resolver";
+import { languages } from "@/i18n/settings";
+import { getT } from "@/i18n";
+import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "ShareBox",
-    description: "Open-source file sharing platform",
-};
+export async function generateStaticParams() {
+    return languages.map((lng) => ({ lng }));
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+    const { t } = await getT("metadata");
+    return {
+        title: t("application_name"),
+        description: t("application_description"),
+        applicationName: t("application_name"),
+    };
+}
 
 const RootLayout = async ({
     children,
 }: Readonly<{ children: React.ReactNode }>) => {
+    const { i18n } = await getT();
     return (
-        <html lang={await getLocaleName()} suppressHydrationWarning>
+        <html lang={i18n.resolvedLanguage} suppressHydrationWarning>
             <head>
                 <title>ShareBox</title>
                 <meta
