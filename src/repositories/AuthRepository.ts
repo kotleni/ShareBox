@@ -1,5 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
+import {
+    InvalidCredentialsError,
+    UnknownAuthError,
+    UserExistsError,
+} from "@/errors/auth";
 
 interface User {
     username: string;
@@ -8,9 +13,9 @@ interface User {
 }
 
 interface AuthRepository {
-    register: (username: string, password: string) => Promise<User | null>;
-    login: (username: string, password: string) => Promise<User | null>;
-    identifyUser: (token: string) => Promise<User | null>;
+    register: (username: string, password: string) => Promise<User>;
+    login: (username: string, password: string) => Promise<User>;
+    identifyUser: (token: string) => Promise<User>;
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -18,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
     async register(username: string, password: string) {
         if (!username || !password) {
-            throw new Error("Username and password are required.");
+            throw new InvalidCredentialsError();
         }
 
         const existingUser = await this.prisma.user.findUnique({
@@ -26,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
         });
 
         if (existingUser) {
-            throw new Error("Username already exists."); // Or a more specific custom error
+            throw new UserExistsError();
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -48,13 +53,7 @@ class AuthRepositoryImpl implements AuthRepository {
                 token: token,
             };
         } catch (error) {
-            // Log the error for debugging purposes
-            console.error(
-                "Error during user registration in repository:",
-                error,
-            );
-            // Throw a generic error or a custom application error
-            throw new Error("Could not register user due to a server error.");
+            throw new UnknownAuthError();
         }
     }
 
