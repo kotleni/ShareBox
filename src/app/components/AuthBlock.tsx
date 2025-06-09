@@ -8,8 +8,58 @@ import { LoaderCircle } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+enum AuthBlockErrorType {
+    Unknown,
+    InvalidCredentials,
+}
+
 interface AuthBlockProps {
     type: "login" | "register";
+    onSuccess: () => void;
+    onError: (type: AuthBlockErrorType) => void;
+}
+
+type Token = { token: string };
+
+interface ShareBoxAPI {
+    login: (username: string, password: string) => Promise<Token>;
+    register: (username: string, password: string) => Promise<Token>;
+}
+
+class ShareBoxAPIImpl implements ShareBoxAPI {
+    async login(username: string, password: string): Promise<Token> {
+        return fetch("/api/auth/login", {
+            method: "POST",
+            body: JSON.stringify({ username, password }),
+        })
+            .then((res) => {
+                if (!res.ok) throw res;
+                return res.json();
+            })
+            .then((data) => {
+                return data as unknown as Token;
+            })
+            .catch((e) => {
+                throw e;
+            });
+    }
+
+    async register(username: string, password: string): Promise<Token> {
+        return fetch("/api/auth/reg", {
+            method: "POST",
+            body: JSON.stringify({ username, password }),
+        })
+            .then((res) => {
+                if (!res.ok) throw res;
+                return res.json();
+            })
+            .then((data) => {
+                return data as unknown as Token;
+            })
+            .catch((e) => {
+                throw e;
+            });
+    }
 }
 
 const AuthBlock = (props: AuthBlockProps) => {
@@ -23,38 +73,40 @@ const AuthBlock = (props: AuthBlockProps) => {
 
     const [isLoading, setLoading] = useState(false);
 
-    const doLogin = (data: FieldValues) => {
+    const doLogin = async (data: FieldValues) => {
         setLoading(true);
-        fetch("/api/auth/login", {
-            method: "POST",
-            body: JSON.stringify({
-                username: data.username,
-                password: data.password,
-            }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data.token);
+
+        const api: ShareBoxAPI = new ShareBoxAPIImpl();
+        api.login(data.username, data.password)
+            .then((token) => {
+                console.log(`Login OK, token: ${token.token}`);
+                props.onSuccess();
+            })
+            .catch((e) => {
+                console.error(e);
+                props.onError(AuthBlockErrorType.InvalidCredentials);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     };
 
-    const doRegister = (data: FieldValues) => {
+    const doRegister = async (data: FieldValues) => {
         if (data.password !== data.password_verification) {
             return;
         }
 
-        setLoading(true);
-        fetch("/api/auth/reg", {
-            method: "POST",
-            body: JSON.stringify({
-                username: data.username,
-                password: data.password,
-            }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data.token);
+        const api: ShareBoxAPI = new ShareBoxAPIImpl();
+        api.register(data.username, data.password)
+            .then((token) => {
+                console.log(`Register OK, token: ${token.token}`);
+                props.onSuccess();
+            })
+            .catch((e) => {
+                console.error(e);
+                props.onError(AuthBlockErrorType.InvalidCredentials);
+            })
+            .finally(() => {
                 setLoading(false);
             });
     };
@@ -128,4 +180,4 @@ const AuthBlock = (props: AuthBlockProps) => {
     );
 };
 
-export default AuthBlock;
+export { AuthBlock, AuthBlockErrorType };

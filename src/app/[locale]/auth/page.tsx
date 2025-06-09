@@ -1,16 +1,29 @@
+"use client";
+
 import { Tabs, TabsList, TabsTrigger } from "@/app/components/Tabs";
-import AuthBlock from "@/app/components/AuthBlock";
+import { AuthBlock, AuthBlockErrorType } from "@/app/components/AuthBlock";
 import { Alert, AlertDescription, AlertTitle } from "@/app/components/Alert";
 import { AlertCircleIcon } from "lucide-react";
-import { getTranslation } from "@/i18n/server";
+import { useTranslation } from "@/i18n/client";
+import { useState } from "react";
 
-export default async function AuthPage() {
-    const { t } = await getTranslation();
+export default function AuthPage() {
+    const { t } = useTranslation();
+
+    const [authError, setAuthError] = useState<AuthBlockErrorType | undefined>(
+        undefined,
+    );
+
+    const onSuccess = () => {};
 
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">
             <div className="m-4 sm:m-2 w-140 sm:w-fit md:w-100 lg:w-140 xl:w-140">
-                <Alert className="w-full mb-4" variant="default">
+                <Alert
+                    className="w-full mb-4"
+                    variant="destructive"
+                    hidden={authError == undefined}
+                >
                     <AlertCircleIcon />
                     <AlertTitle>{t("alert_title")}</AlertTitle>
                     <AlertDescription>
@@ -25,8 +38,16 @@ export default async function AuthPage() {
                             {t("register")}
                         </TabsTrigger>
                     </TabsList>
-                    <AuthBlock type="login" />
-                    <AuthBlock type="register" />
+                    <AuthBlock
+                        type="login"
+                        onError={(error) => setAuthError(error)}
+                        onSuccess={onSuccess}
+                    />
+                    <AuthBlock
+                        type="register"
+                        onError={(error) => setAuthError(error)}
+                        onSuccess={onSuccess}
+                    />
                 </Tabs>
             </div>
         </main>
