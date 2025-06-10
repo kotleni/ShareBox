@@ -5,6 +5,7 @@ import {
     UnknownAuthError,
     UserExistsError,
 } from "@/errors/auth";
+import { createJwtToken } from "@/auth";
 
 interface User {
     username: string;
@@ -44,8 +45,7 @@ class AuthRepositoryImpl implements AuthRepository {
                 },
             });
 
-            // TODO: Implement JWT generation)
-            const token = "s78df6a678fasd8776dsa4545f";
+            const token = await createJwtToken(newUser.username ?? "");
 
             return {
                 username: newUser.username!,
@@ -53,12 +53,26 @@ class AuthRepositoryImpl implements AuthRepository {
                 token: token,
             };
         } catch (error) {
-            throw new UnknownAuthError();
+            throw new UnknownAuthError((error as Error).message);
         }
     }
 
     async login(username: string, password: string) {
-        return { username, password, token: "" };
+        if (!username || !password) {
+            throw new InvalidCredentialsError();
+        }
+
+        const existingUser = await this.prisma.user.findUnique({
+            where: { username: username },
+        });
+
+        if(!existingUser) {
+            throw new InvalidCredentialsError();
+        }
+
+        const token = await createJwtToken(existingUser.username ?? "");
+
+        return { username, password, token };
     }
 
     async identifyUser(token: string) {
