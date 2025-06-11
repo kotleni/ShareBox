@@ -8,6 +8,7 @@ import { LoaderCircle } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as authActions from "@/app/actions/auth";
+import GitHubSignInButton from "@/app/components/auth/GitHubSignInButton";
 
 enum AuthBlockErrorType {
     Unknown,
@@ -151,6 +152,7 @@ const AuthBlock = (props: AuthBlockProps) => {
                         </Button>
                     </div>
                 </form>
+                <GitHubSignInButton />
             </TabsContent>
         </div>
     );

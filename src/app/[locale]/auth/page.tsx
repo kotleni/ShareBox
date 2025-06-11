@@ -14,7 +14,10 @@ export default function AuthPage() {
         undefined,
     );
 
-    const onSuccess = () => {};
+    const onSuccess = () => {
+        // Redirect to home page after successful login/registration
+        window.location.href = "/";
+    };
 
     return (
         <main className="w-full h-full flex flex-col flex-wrap gap-2 grow-1 justify-center items-center">
