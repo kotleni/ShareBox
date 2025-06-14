@@ -50,7 +50,7 @@ const RootContent = async ({
                                 <form action={logout}>
                                     <button
                                         type="submit"
-                                        className="hover:underline"
+                                        className="hover:underline cursor-pointer"
                                     >
                                         Logout
                                     </button>
