@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPreferredLocale } from "./i18n/getPreferredLocale";
 import { languages } from "@/i18n/settings";
-import { verifyJwtToken } from "@/auth";
+import { auth } from "@/auth";
 
 const AUTH_PAGE = "/auth";
 const NOT_REQUIRED_AUTH_PAGES = [
@@ -11,14 +11,15 @@ const NOT_REQUIRED_AUTH_PAGES = [
     "/auth",
     "/en/auth",
     "/uk/auth",
+    "/api/auth",
 ];
 
 const isNotRequireAuth = (url: string) =>
-    NOT_REQUIRED_AUTH_PAGES.some((page) => page == url);
+    NOT_REQUIRED_AUTH_PAGES.some((page) => page === url) ||
+    url.startsWith("/api/auth");
 
 export async function middleware(req: NextRequest) {
-    const { nextUrl, cookies } = req;
-    const { value: token } = cookies.get("token") ?? { value: null };
+    const { nextUrl } = req;
     const newUrl = nextUrl.clone();
     const pathname = newUrl.pathname;
     const res = NextResponse.rewrite(newUrl);
@@ -26,9 +27,9 @@ export async function middleware(req: NextRequest) {
     const isAuthRequired = !isNotRequireAuth(nextUrl.pathname);
 
     if (isAuthRequired) {
-        // Verify auth
-        const hasVerifiedToken = token && (await verifyJwtToken(token));
-        if (!hasVerifiedToken) {
+        // Verify auth using NextAuth
+        const session = await auth();
+        if (!session) {
             newUrl.pathname = AUTH_PAGE;
             return NextResponse.redirect(newUrl);
         }

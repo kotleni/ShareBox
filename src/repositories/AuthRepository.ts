@@ -5,7 +5,6 @@ import {
     UnknownAuthError,
     UserExistsError,
 } from "@/errors/auth";
-import { createJwtToken } from "@/auth";
 
 interface User {
     username: string;
@@ -45,12 +44,10 @@ class AuthRepositoryImpl implements AuthRepository {
                 },
             });
 
-            const token = await createJwtToken(newUser.username ?? "");
-
             return {
                 username: newUser.username!,
                 password: newUser.password!,
-                token: token,
+                token: "", // Token is handled by NextAuth.js
             };
         } catch (error) {
             throw new UnknownAuthError((error as Error).message);
@@ -66,13 +63,24 @@ class AuthRepositoryImpl implements AuthRepository {
             where: { username: username },
         });
 
-        if(!existingUser) {
+        if (!existingUser) {
             throw new InvalidCredentialsError();
         }
 
-        const token = await createJwtToken(existingUser.username ?? "");
+        // Verify password
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            existingUser.password ?? "",
+        );
+        if (!isPasswordValid) {
+            throw new InvalidCredentialsError();
+        }
 
-        return { username, password, token };
+        return {
+            username,
+            password,
+            token: "", // Token is handled by NextAuth.js
+        };
     }
 
     async identifyUser(token: string) {

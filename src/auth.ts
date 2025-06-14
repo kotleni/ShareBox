@@ -1,31 +1,20 @@
-import { jwtVerify, SignJWT } from "jose";
+import NextAuth from "next-auth";
+import GitHub from "@auth/core/providers/github";
 
-export function getJwtSecretKey() {
-    const secret = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+export type AuthUser = {
+    username: string;
+    role: string;
+};
 
-    if (!secret) {
-        throw new Error("JWT Secret key is not matched");
-    }
-
-    return new TextEncoder().encode(secret);
-}
-
-export async function verifyJwtToken(token: string) {
-    try {
-        const { payload } = await jwtVerify(token, getJwtSecretKey());
-        return payload;
-    } catch (error) {
-        return null;
-    }
-}
-
-export async function createJwtToken(username: string) {
-    return await new SignJWT({
-        username: username,
-        role: "user",
-    })
-        .setProtectedHeader({ alg: "HS256" })
-        .setIssuedAt()
-        .setExpirationTime("30d")
-        .sign(getJwtSecretKey());
-}
+// https://authjs.dev/getting-started/authentication/oauth
+export const {
+    handlers: { GET, POST },
+    auth,
+    signIn,
+    signOut,
+} = NextAuth({
+    pages: {
+        signIn: "/login",
+    },
+    providers: [GitHub],
+});
