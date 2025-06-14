@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 interface File {
     id: string;
@@ -16,7 +17,7 @@ interface FilesService {
 }
 
 class FilesServiceImpl implements FilesService {
-    private prisma: PrismaClient = new PrismaClient();
+    constructor(private prisma: PrismaClient | Prisma.TransactionClient = prisma) {}
 
     async getUserFiles(userId: number): Promise<File[]> {
         const files = await this.prisma.file.findMany({ where: {ownerId: userId} });
@@ -57,8 +58,8 @@ class FilesServiceImpl implements FilesService {
     }
 }
 
-function createFilesService(): FilesService {
-    return new FilesServiceImpl();
+function createFilesService(alternativePrisma: PrismaClient = prisma): FilesService {
+    return new FilesServiceImpl(alternativePrisma);
 }
 
 export { createFilesService };
