@@ -1,4 +1,4 @@
-import "../globals.scss";
+import "../globals.css";
 import Link from "next/link";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
 import LogoIcon from "@/app/icons/LogoIcon";

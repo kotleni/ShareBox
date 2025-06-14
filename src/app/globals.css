@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
 :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
@@ -108,24 +118,12 @@
     --color-sidebar-ring: var(--sidebar-ring);
 
     --animate-wiggle: wiggle 1s ease-in-out infinite;
-    @keyframes wiggle {
-        0%,
-        100% {
-            transform: rotate(-3deg);
-        }
-        50% {
-            transform: rotate(3deg);
-        }
-    }
 }
 
 @layer base {
     * {
-        @apply border-border outline-ring/50;
-    }
-
-    body {
-        @apply bg-background text-foreground;
+        border-color: var(--color-border);
+        outline-color: oklch(from var(--color-ring) l c h / 0.5);
     }
 }
 
