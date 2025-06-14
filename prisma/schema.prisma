@@ -8,7 +8,15 @@ generator client {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String? @db.VarChar(255) @unique
+  id       Int     @id @default(autoincrement())
+  username String? @unique @db.VarChar(255)
   password String? @db.VarChar(255)
+}
+
+model File {
+  id       String  @id
+  name     String  @db.VarChar(255)
+  size     Int
+  ownerId  Int
+  isShared Boolean
 }
