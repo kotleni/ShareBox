@@ -49,8 +49,8 @@ async function register(
     }
 }
 
-async function logout(): Promise<void> {
-    await signOut({ redirect: false });
+async function logout() {
+    await signOut({ redirect: true });
 }
 
 async function signInGithub() {
