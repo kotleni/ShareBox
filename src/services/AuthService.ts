@@ -12,13 +12,13 @@ interface User {
     token: string;
 }
 
-interface AuthRepository {
+interface AuthService {
     register: (username: string, password: string) => Promise<User>;
     login: (username: string, password: string) => Promise<User>;
     identifyUser: (token: string) => Promise<User>;
 }
 
-class AuthRepositoryImpl implements AuthRepository {
+class AuthServiceImpl implements AuthService {
     private prisma: PrismaClient = new PrismaClient();
 
     async register(username: string, password: string) {
@@ -88,7 +88,7 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 }
 
-const createAuthRepository = (): AuthRepository => new AuthRepositoryImpl();
+const createAuthService = (): AuthService => new AuthServiceImpl();
 
-export { createAuthRepository };
-export type { AuthRepository, User };
+export { createAuthService };
+export type { AuthService, User };

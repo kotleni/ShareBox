@@ -1,6 +1,6 @@
 "use server";
 
-import { createAuthRepository, User } from "@/repositories/AuthRepository";
+import { createAuthService, User } from "@/services/AuthService";
 import { ActionResult, ResultBuilder } from "@/app/actions/result";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
@@ -37,10 +37,10 @@ async function register(
     username: string,
     password: string,
 ): Promise<ActionResult<User>> {
-    const authRepository = createAuthRepository();
+    const authService = createAuthService();
     try {
         // Register the user
-        await authRepository.register(username, password);
+        await authService.register(username, password);
 
         // Sign in the user
         return await login(username, password);
