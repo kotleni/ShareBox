@@ -1,8 +1,11 @@
 import { Button } from "@/app/components/Button";
 import Link from "next/link";
 import { CloudUpload } from "lucide-react";
+import { auth } from "@/auth";
 
 export default async function Home() {
+    const authorization = await auth();
+
     return (
         <main className="w-full h-full flex flex-col flex-wrap grow-1 justify-center items-center">
             <CloudUpload width={64} height={64} className="mb-8" />
@@ -13,9 +16,23 @@ export default async function Home() {
             </p>
 
             <div className="flex gap-3 justify-center">
-                <Button variant="default" size="lg" asChild>
+                <Button
+                    variant="default"
+                    size="lg"
+                    hidden={authorization?.user !== undefined}
+                    asChild
+                >
                     <Link href={`/auth`}>Create account</Link>
                 </Button>
+                <Button
+                    variant="default"
+                    size="lg"
+                    hidden={authorization?.user === undefined}
+                    asChild
+                >
+                    <Link href={`/files`}>Uploaded files</Link>
+                </Button>
+
                 <Button variant="outline" size="lg" asChild>
                     <Link
                         href="https://github.com/kotleni/ShareBox"
